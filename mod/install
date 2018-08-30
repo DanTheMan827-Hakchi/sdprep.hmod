@@ -1,0 +1,25 @@
+[ ! -b "/dev/mmcblk0" ] && echo "No SD card found, did you install the SD uboot?" && (rm "$transferpath/sfdisk"; return 1)
+
+sdprep="$transferpath/sdprep"
+
+chmod +x "$transferpath/sfdisk"
+
+echo "Partitioning and formatting SD card"
+echo ""
+
+"$transferpath/sfdisk" "/dev/mmcblk0" <<EOT
+,,L
+EOT
+
+rm "$transferpath/sfdisk"
+
+yes | mke2fs -t ext4 -L data -b 4K -E stripe-width=32 -O ^huge_file,^metadata_csum /dev/mmcblk0p1
+
+mkdir "$sdprep"
+mount "/dev/mmcblk0p1" "$sdprep" || (echo "Error mounting SD card" && return 1)
+
+mkdir -p "$sdprep/$modname/games" "$sdprep/$modname/saves"
+
+sync
+umount "$sdprep" && rmdir "$sdprep"
+

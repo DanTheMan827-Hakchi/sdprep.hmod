@@ -8,7 +8,7 @@ echo "Partitioning and formatting SD card"
 echo ""
 
 "$transferpath/sfdisk" "/dev/mmcblk0" <<EOT
-,,L
+1M,,L
 EOT
 
 rm "$transferpath/sfdisk"

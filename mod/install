@@ -4,6 +4,11 @@ sdprep="$transferpath/sdprep"
 
 chmod +x "$transferpath/sfdisk"
 
+dd if=/dev/zero of=/dev/mmcblk0 bs=1 count=446
+dd if=/dev/zero of=/dev/mmcblk0 bs=1K seek=8 count=32
+dd if=/dev/zero of=/dev/mmcblk0 bs=1K seek=19096 count=688
+
+echo ""
 echo "Partitioning and formatting SD card"
 echo ""
 
@@ -23,5 +28,4 @@ mkdir -p "$sdprep/$modname/games" "$sdprep/$modname/saves"
 sync
 umount "$sdprep" && rmdir "$sdprep"
 
-dd if=/dev/zero of=/dev/mmcblk0 bs=1 count=446
 echo sdprep | dd of=/dev/mmcblk0

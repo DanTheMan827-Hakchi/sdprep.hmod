@@ -23,7 +23,7 @@ out/$(MOD_FILENAME)-$(GIT_COMMIT).hmod: mod/sfdisk
 	  "---" > temp/readme.md
 	
 	sed 1d mod/readme.md >> temp/readme.md
-	cd temp/; tar -czvf "../$@" *
+	cd temp/; tar --owner=0 --group=0 -czvf "../$@" *
 	rm -r temp/
 	touch "$@"
 

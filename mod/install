@@ -8,7 +8,7 @@ echo "Partitioning and formatting SD card"
 echo ""
 
 "$transferpath/sfdisk" "/dev/mmcblk0" <<EOT
-1M,,L
+128M,,L
 EOT
 
 rm "$transferpath/sfdisk"
@@ -23,3 +23,5 @@ mkdir -p "$sdprep/$modname/games" "$sdprep/$modname/saves"
 sync
 umount "$sdprep" && rmdir "$sdprep"
 
+dd if=/dev/zero of=/dev/mmcblk0 bs=1 count=446
+echo sdprep | dd of=/dev/mmcblk0
